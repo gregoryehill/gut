@@ -24,7 +24,7 @@ export function IngredientGrid({
   isLoading = false,
 }: IngredientGridProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
       {INGREDIENT_CATEGORIES.map((category) => (
         <IngredientCard
           key={category}

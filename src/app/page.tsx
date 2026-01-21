@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { CuisineSelector } from '@/components/CuisineSelector';
 import { SeasonSelector } from '@/components/SeasonSelector';
 import { ServingsSelector } from '@/components/ServingsSelector';
@@ -103,12 +104,18 @@ export default function Home() {
   };
 
   // Show recipe view if we have a recipe
-  if (recipe) {
+  if (recipe && selectedCuisine) {
     return (
-      <div className="min-h-screen bg-background py-8 px-4">
+      <div className="min-h-screen bg-background py-12 px-4 sm:py-16">
         <div className="max-w-4xl mx-auto">
           <RecipeView
             recipe={recipe}
+            recipeInputs={{
+              cuisine: selectedCuisine.name,
+              season,
+              servings,
+              ingredients,
+            }}
             onBack={handleBack}
             onThumbsDown={handleThumbsDown}
             onRegenerate={handleRegenerate}
@@ -120,20 +127,46 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8 px-4">
+    <div className="min-h-screen bg-background py-12 px-4 sm:py-16">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <header className="text-center mb-8 sm:mb-12">
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal mb-1 sm:mb-2">
+        <header className="text-center mb-12 sm:mb-16">
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-medium mb-3 tracking-tight">
             GUT
           </h1>
           <p className="text-muted-foreground text-base sm:text-lg">
-            Grand Unified Theory of Cooking
+            A Grand Unified Theory of Cooking for people who ship code and want to ship dinner too
+          </p>
+          <div className="flex items-center justify-center gap-4 mt-4">
+            <Link
+              href="/about"
+              className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
+            >
+              What is GUT?
+            </Link>
+            <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
+            <Link
+              href="/how"
+              className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
+            >
+              How is GUT?
+            </Link>
+          </div>
+          <p className="text-xs text-foreground/60 mt-6">
+            Built with{' '}
+            <a
+              href="https://code.claude.com/docs/en/overview"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-foreground transition-colors"
+            >
+              Claude Code
+            </a>
           </p>
         </header>
 
         {/* Selectors row */}
-        <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:items-end sm:gap-6 mb-10 max-w-md mx-auto sm:max-w-none">
+        <div className="grid grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:items-end sm:gap-8 mb-12 max-w-md mx-auto sm:max-w-none">
           <SeasonSelector value={season} onChange={setSeason} />
           <CuisineSelector
             cuisines={cuisines}
@@ -152,7 +185,7 @@ export default function Home() {
         ) : (
           <>
             {/* Ingredient grid */}
-            <div className="mb-8">
+            <div className="mb-10">
               <IngredientGrid
                 ingredients={ingredients}
                 lockedIngredients={lockedIngredients}

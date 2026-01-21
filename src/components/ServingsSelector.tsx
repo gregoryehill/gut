@@ -24,21 +24,15 @@ export function ServingsSelector({ value, onChange }: ServingsSelectorProps) {
         value={value.toString()}
         onValueChange={(val) => onChange(parseInt(val, 10))}
       >
-        <SelectTrigger className="w-full sm:w-[140px] h-11">
+        <SelectTrigger className="w-full sm:w-[120px] h-11">
           <SelectValue>
-            <span className="flex items-center gap-2">
-              <span>👥</span>
-              <span>{value} people</span>
-            </span>
+            {value} {value === 1 ? 'serving' : 'servings'}
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
           {SERVINGS_OPTIONS.map((num) => (
             <SelectItem key={num} value={num.toString()} className="py-2.5">
-              <span className="flex items-center gap-2">
-                <span>👥</span>
-                <span>{num} people</span>
-              </span>
+              {num} {num === 1 ? 'serving' : 'servings'}
             </SelectItem>
           ))}
         </SelectContent>

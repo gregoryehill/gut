@@ -9,19 +9,20 @@ import {
 } from '@/components/ui/select';
 import type { Cuisine } from '@/types';
 
-// Map cuisine names to country flag emojis
-const CUISINE_EMOJIS: Record<string, string> = {
-  'Thai': '🇹🇭',
-  'Italian': '🇮🇹',
-  'Mexican': '🇲🇽',
-  'American (Southern)': '🇺🇸',
-  'Indian': '🇮🇳',
-  'Chinese': '🇨🇳',
+const CUISINE_FLAGS: Record<string, string> = {
+  'Thai': '\u{1F1F9}\u{1F1ED}',
+  'Italian': '\u{1F1EE}\u{1F1F9}',
+  'Mexican': '\u{1F1F2}\u{1F1FD}',
+  'American (Southern)': '\u{1F1FA}\u{1F1F8}',
+  'Indian': '\u{1F1EE}\u{1F1F3}',
+  'Chinese': '\u{1F1E8}\u{1F1F3}',
+  'Japanese': '\u{1F1EF}\u{1F1F5}',
+  'French': '\u{1F1EB}\u{1F1F7}',
+  'Greek': '\u{1F1EC}\u{1F1F7}',
+  'Korean': '\u{1F1F0}\u{1F1F7}',
+  'Vietnamese': '\u{1F1FB}\u{1F1F3}',
+  'Spanish': '\u{1F1EA}\u{1F1F8}',
 };
-
-function getCuisineEmoji(name: string): string {
-  return CUISINE_EMOJIS[name] ?? '🍽️';
-}
 
 interface CuisineSelectorProps {
   cuisines: Cuisine[];
@@ -56,7 +57,7 @@ export function CuisineSelector({
           <SelectValue placeholder="Select cuisine">
             {selectedCuisine && (
               <span className="flex items-center gap-2">
-                <span>{getCuisineEmoji(selectedCuisine.name)}</span>
+                <span>{CUISINE_FLAGS[selectedCuisine.name] ?? ''}</span>
                 <span>{selectedCuisine.name}</span>
               </span>
             )}
@@ -64,15 +65,12 @@ export function CuisineSelector({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="random" className="py-2.5">
-            <span className="flex items-center gap-2">
-              <span>🎲</span>
-              <span>Random</span>
-            </span>
+            Surprise me
           </SelectItem>
           {cuisines.map((cuisine) => (
             <SelectItem key={cuisine.id} value={cuisine.id} className="py-2.5">
               <span className="flex items-center gap-2">
-                <span>{getCuisineEmoji(cuisine.name)}</span>
+                <span>{CUISINE_FLAGS[cuisine.name] ?? ''}</span>
                 <span>{cuisine.name}</span>
               </span>
             </SelectItem>

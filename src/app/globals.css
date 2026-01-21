@@ -76,6 +76,20 @@
   --radius: 0.5rem;
   --background: oklch(0.9809 0.0025 228.7836);
   --foreground: oklch(0.3211 0 0);
+
+  /* 5 F's Category Colors - Subtle tints */
+  --category-fat: oklch(0.95 0.02 80);
+  --category-foundation: oklch(0.95 0.02 140);
+  --category-feature: oklch(0.95 0.03 25);
+  --category-flavor: oklch(0.95 0.02 250);
+  --category-finish: oklch(0.95 0.04 110);
+
+  /* Category border colors */
+  --category-fat-border: oklch(0.90 0.03 80);
+  --category-foundation-border: oklch(0.90 0.03 140);
+  --category-feature-border: oklch(0.90 0.04 25);
+  --category-flavor-border: oklch(0.90 0.03 250);
+  --category-finish-border: oklch(0.90 0.05 110);
   --card: oklch(1.0000 0 0);
   --card-foreground: oklch(0.3211 0 0);
   --popover: oklch(1.0000 0 0);
@@ -131,6 +145,20 @@
 .dark {
   --background: oklch(0.2303 0.0125 264.2926);
   --foreground: oklch(0.9219 0 0);
+
+  /* 5 F's Category Colors - Dark mode (muted) */
+  --category-fat: oklch(0.30 0.02 80);
+  --category-foundation: oklch(0.30 0.02 140);
+  --category-feature: oklch(0.30 0.03 25);
+  --category-flavor: oklch(0.30 0.02 250);
+  --category-finish: oklch(0.30 0.04 110);
+
+  /* Category border colors - Dark mode */
+  --category-fat-border: oklch(0.40 0.03 80);
+  --category-foundation-border: oklch(0.40 0.03 140);
+  --category-feature-border: oklch(0.40 0.04 25);
+  --category-flavor-border: oklch(0.40 0.03 250);
+  --category-finish-border: oklch(0.40 0.05 110);
   --card: oklch(0.3210 0.0078 223.6661);
   --card-foreground: oklch(0.9219 0 0);
   --popover: oklch(0.3210 0.0078 223.6661);

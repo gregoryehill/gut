@@ -14,16 +14,12 @@ interface SeasonSelectorProps {
   onChange: (season: Season) => void;
 }
 
-const SEASON_CONFIG: { value: Season; label: string; emoji: string }[] = [
-  { value: 'spring', label: 'Spring', emoji: '🌸' },
-  { value: 'summer', label: 'Summer', emoji: '☀️' },
-  { value: 'fall', label: 'Fall', emoji: '🍂' },
-  { value: 'winter', label: 'Winter', emoji: '❄️' },
+const SEASON_CONFIG: { value: Season; label: string }[] = [
+  { value: 'spring', label: 'Spring' },
+  { value: 'summer', label: 'Summer' },
+  { value: 'fall', label: 'Fall' },
+  { value: 'winter', label: 'Winter' },
 ];
-
-function getSeasonEmoji(season: Season): string {
-  return SEASON_CONFIG.find((s) => s.value === season)?.emoji ?? '🌿';
-}
 
 export function SeasonSelector({ value, onChange }: SeasonSelectorProps) {
   return (
@@ -32,21 +28,15 @@ export function SeasonSelector({ value, onChange }: SeasonSelectorProps) {
         Season
       </label>
       <Select value={value} onValueChange={(val) => onChange(val as Season)}>
-        <SelectTrigger className="w-full sm:w-[150px] h-11">
+        <SelectTrigger className="w-full sm:w-[140px] h-11">
           <SelectValue>
-            <span className="flex items-center gap-2">
-              <span>{getSeasonEmoji(value)}</span>
-              <span>{SEASON_CONFIG.find((s) => s.value === value)?.label}</span>
-            </span>
+            {SEASON_CONFIG.find((s) => s.value === value)?.label}
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
           {SEASON_CONFIG.map((season) => (
             <SelectItem key={season.value} value={season.value} className="py-2.5">
-              <span className="flex items-center gap-2">
-                <span>{season.emoji}</span>
-                <span>{season.label}</span>
-              </span>
+              {season.label}
             </SelectItem>
           ))}
         </SelectContent>

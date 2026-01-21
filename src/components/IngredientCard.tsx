@@ -15,11 +15,11 @@ interface IngredientCardProps {
 }
 
 const CATEGORY_COLORS: Record<IngredientCategory, string> = {
-  fat: 'bg-amber-50 border-amber-200',
-  foundation: 'bg-orange-50 border-orange-200',
-  feature: 'bg-rose-50 border-rose-200',
-  flavor: 'bg-purple-50 border-purple-200',
-  finish: 'bg-emerald-50 border-emerald-200',
+  fat: 'bg-[var(--category-fat)] border-[var(--category-fat-border)]',
+  foundation: 'bg-[var(--category-foundation)] border-[var(--category-foundation-border)]',
+  feature: 'bg-[var(--category-feature)] border-[var(--category-feature-border)]',
+  flavor: 'bg-[var(--category-flavor)] border-[var(--category-flavor-border)]',
+  finish: 'bg-[var(--category-finish)] border-[var(--category-finish-border)]',
 };
 
 export function IngredientCard({
@@ -32,55 +32,53 @@ export function IngredientCard({
 }: IngredientCardProps) {
   return (
     <Card
-      className={`p-3 sm:p-4 transition-all duration-200 hover:shadow-md ${CATEGORY_COLORS[category]} ${
-        isLocked ? 'ring-2 ring-primary' : ''
+      className={`p-4 sm:p-5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${CATEGORY_COLORS[category]} ${
+        isLocked ? 'ring-2 ring-primary/50' : ''
       }`}
     >
-      <div className="flex flex-col gap-1.5 sm:gap-2">
+      <div className="flex flex-col h-full">
         {/* Category header */}
-        <div>
-          <h3 className="font-serif text-base sm:text-lg font-medium">
+        <div className="mb-2">
+          <h3 className="font-serif text-lg sm:text-xl font-semibold text-foreground">
             {CATEGORY_LABELS[category]}
           </h3>
-          <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">
+          <p className="text-xs sm:text-sm text-muted-foreground leading-tight">
             {CATEGORY_DESCRIPTIONS[category]}
           </p>
         </div>
 
-        {/* Ingredient name */}
-        <div className="min-h-[2rem] sm:min-h-[2.5rem] flex items-center">
+        {/* Ingredient name - the hero */}
+        <div className="flex-1 min-h-[3.5rem] sm:min-h-[4rem] flex items-center justify-center text-center py-3">
           {isLoading ? (
-            <div className="h-4 sm:h-5 w-20 sm:w-24 bg-muted animate-pulse rounded" />
+            <div className="h-6 w-28 bg-muted/50 animate-pulse rounded" />
           ) : ingredient ? (
-            <p className="text-sm sm:text-base font-medium">{ingredient.name}</p>
+            <p className="font-serif text-xl sm:text-2xl font-medium text-foreground">{ingredient.name}</p>
           ) : (
-            <p className="text-xs sm:text-sm text-muted-foreground italic">
+            <p className="text-sm text-muted-foreground italic">
               Select a cuisine
             </p>
           )}
         </div>
 
         {/* Controls */}
-        <div className="flex gap-1.5 sm:gap-2 mt-0.5 sm:mt-1">
+        <div className="flex gap-2 mt-auto pt-2">
           <Button
             variant={isLocked ? 'default' : 'outline'}
             size="sm"
             onClick={onToggleLock}
             disabled={!ingredient}
-            className="flex-1 text-xs sm:text-sm px-2 sm:px-3"
+            className="flex-1 text-xs font-medium"
           >
-            {isLocked ? '🔒' : '🔓'}
-            <span className="hidden sm:inline ml-1">{isLocked ? 'Locked' : 'Lock'}</span>
+            {isLocked ? 'Locked' : 'Lock'}
           </Button>
           <Button
             variant="outline"
             size="sm"
             onClick={onReroll}
             disabled={isLocked || !ingredient || isLoading}
-            className="flex-1 text-xs sm:text-sm px-2 sm:px-3"
+            className="flex-1 text-xs font-medium"
           >
-            🎲
-            <span className="hidden sm:inline ml-1">Re-roll</span>
+            Reroll
           </Button>
         </div>
       </div>

@@ -18,15 +18,15 @@ export function GenerateButton({
       onClick={onClick}
       disabled={disabled || isLoading}
       size="lg"
-      className="w-full max-w-md mx-auto font-serif text-lg py-6"
+      className="w-full max-w-md mx-auto font-serif text-lg py-6 tracking-wide"
     >
       {isLoading ? (
-        <span className="flex items-center gap-2">
-          <span className="animate-spin">⏳</span>
-          Generating Recipe...
+        <span className="flex items-center gap-3">
+          <span className="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+          Creating your recipe...
         </span>
       ) : (
-        'Generate Recipe'
+        'Make This Meal'
       )}
     </Button>
   );
