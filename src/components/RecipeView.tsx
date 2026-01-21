@@ -29,6 +29,12 @@ export function RecipeView({
   const [feedbackGiven, setFeedbackGiven] = useState<'positive' | 'negative' | null>(null);
 
   const handleSave = async () => {
+    // If already saved, trigger share instead
+    if (savedUrl) {
+      handleShare();
+      return;
+    }
+
     setSaveState('saving');
     try {
       const response = await fetch('/api/recipes', {
@@ -48,9 +54,34 @@ export function RecipeView({
       const url = `${window.location.origin}/recipe/${id}`;
       setSavedUrl(url);
       setSaveState('saved');
-      // Automatically copy link to clipboard
-      await navigator.clipboard.writeText(url);
       setJustSaved(true);
+
+      // On mobile with native share support, use that; otherwise copy to clipboard
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Check out this recipe!',
+            url: url,
+          });
+        } catch (shareError) {
+          // User cancelled share or share failed - fall back to clipboard
+          if ((shareError as Error).name !== 'AbortError') {
+            try {
+              await navigator.clipboard.writeText(url);
+            } catch {
+              // Clipboard also failed, but save succeeded
+            }
+          }
+        }
+      } else {
+        // No native share, copy to clipboard
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          // Clipboard failed, but save succeeded
+        }
+      }
+
       setTimeout(() => setJustSaved(false), 2500);
     } catch {
       setSaveState('error');
@@ -159,7 +190,7 @@ export function RecipeView({
                 </svg>
               )}
               <span className={`absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-foreground text-background text-xs rounded whitespace-nowrap pointer-events-none transition-opacity ${justSaved ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                {justSaved ? 'Saved! Link copied' : copied === 'link' ? 'Copied!' : 'Share link'}
+                {justSaved ? 'Saved!' : copied === 'link' ? 'Copied!' : 'Share link'}
               </span>
             </button>
           )}

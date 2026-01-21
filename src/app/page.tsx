@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { CuisineSelector } from '@/components/CuisineSelector';
 import { SeasonSelector } from '@/components/SeasonSelector';
@@ -104,6 +104,13 @@ export default function Home() {
     clearRecipe();
   };
 
+  // Scroll to top when recipe is shown
+  useLayoutEffect(() => {
+    if (recipe) {
+      window.scrollTo(0, 0);
+    }
+  }, [recipe]);
+
   // Show recipe view if we have a recipe
   if (recipe && selectedCuisine) {
     return (
@@ -166,7 +173,7 @@ export default function Home() {
         </header>
 
         {/* Selectors row */}
-        <div className="grid grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:items-end sm:gap-8 mb-12 max-w-md mx-auto sm:max-w-none">
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center sm:items-end sm:gap-8 mb-12 max-w-xs mx-auto sm:max-w-none">
           <SeasonSelector value={season} onChange={setSeason} />
           <CuisineSelector
             cuisines={cuisines}
