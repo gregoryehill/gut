@@ -133,10 +133,10 @@ export default function Home() {
         {/* Header */}
         <header className="text-center mb-12 sm:mb-16">
           <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-medium mb-3 tracking-tight">
-            GUT
+            G.U.T.
           </h1>
-          <p className="text-muted-foreground text-base sm:text-lg">
-            A Grand Unified Theory of Cooking for people who ship code and want to ship dinner too
+          <p className="font-serif text-muted-foreground text-lg sm:text-xl md:text-2xl max-w-lg mx-auto">
+            A Grand Unified Theory of Cooking for people who ship code, and want to ship dinner too.
           </p>
           <div className="flex items-center justify-center gap-4 mt-4">
             <Link
@@ -153,17 +153,7 @@ export default function Home() {
               How is GUT?
             </Link>
           </div>
-          <p className="text-xs text-foreground/60 mt-6">
-            Built with{' '}
-            <a
-              href="https://code.claude.com/docs/en/overview"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-foreground transition-colors"
-            >
-              Claude Code
-            </a>
-          </p>
+          
         </header>
 
         {/* Selectors row */}

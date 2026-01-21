@@ -172,7 +172,7 @@ export default function HowPage() {
           {/* Intro */}
           <section>
             <p className="text-lg leading-relaxed">
-              I built GUT in about an hour while cooking dinner. It&apos;s obviously a prototype, but it&apos;s a working app with a database, AI-powered recipe generation, and a design system I actually like.
+              I built GUT in about an hour while cooking dinner. It&apos;s obviously a prototype, but it&apos;s a working app with a database, AI-powered recipe generation, and a design system.
             </p>
           </section>
 
