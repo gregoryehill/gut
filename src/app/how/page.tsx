@@ -206,18 +206,18 @@ export default function HowPage() {
 
           {/* Step 1 */}
           <section>
-            <h2 className="font-serif text-2xl font-normal mb-4">Step 1: Talk Through the Idea</h2>
+            <h2 className="font-serif text-2xl font-normal mb-4">Step 1: Talk Through the Idea with Claude</h2>
             <p className="leading-relaxed">
-              I didn&apos;t start by writing a PRD. I started by having a conversation.
+              I didn&apos;t start by writing a PRD. I started by opening Claude and having a conversation.
             </p>
             <p className="leading-relaxed mt-4">
-              I explained the five F&apos;s framework to Claude and we stress-tested it together. Does aglio e olio fit the model? (Yes. The pasta itself is the Feature.) What about salads? (Yes. The vinaigrette is the Fat.) What about dishes that seem too simple?
+              I explained the five F&apos;s framework and asked Claude to stress-test it with me. Does aglio e olio fit the model? (Yes. The pasta itself is the Feature.) What about salads? (Yes. The vinaigrette is the Fat.) What about dishes that seem too simple? Claude pushed back on edge cases I hadn&apos;t considered.
             </p>
             <p className="leading-relaxed mt-4">
               This is where the work actually happens. Not in the code. In the thinking.
             </p>
             <p className="leading-relaxed mt-4">
-              We went back and forth on questions like:
+              Claude and I went back and forth on questions like:
             </p>
             <ul className="mt-4 space-y-2">
               <li>Should the app be cuisine-aware, or allow weird fusion combinations?</li>
@@ -246,9 +246,9 @@ export default function HowPage() {
 
           {/* Step 2 */}
           <section>
-            <h2 className="font-serif text-2xl font-normal mb-4">Step 2: Define the Architecture</h2>
+            <h2 className="font-serif text-2xl font-normal mb-4">Step 2: Define the Architecture with Claude</h2>
             <p className="leading-relaxed">
-              Once the product was clear, we talked through how it should work technically.
+              Once the product was clear, I asked Claude to help me think through how it should work technically.
             </p>
             <p className="leading-relaxed mt-4">
               The key insight: <strong>separate the cheap operations from the expensive ones.</strong>
@@ -268,7 +268,7 @@ export default function HowPage() {
               </li>
             </ol>
             <p className="leading-relaxed mt-4">
-              This architecture came out of conversation, not upfront planning. We talked through the user flow and realized that if every re-roll called the LLM, the app would be slow and expensive.
+              This architecture came out of my conversation with Claude, not upfront planning. We talked through the user flow together and Claude pointed out that if every re-roll called the LLM, the app would be slow and expensive.
             </p>
           </section>
 
@@ -276,7 +276,7 @@ export default function HowPage() {
 
           {/* Step 3 */}
           <section>
-            <h2 className="font-serif text-2xl font-normal mb-4">Step 3: Decide What Context Claude Code Needs</h2>
+            <h2 className="font-serif text-2xl font-normal mb-4">Step 3: Plan the Context Documents with Claude</h2>
             <p className="leading-relaxed">
               Here&apos;s where most people go wrong. They open Claude Code and start typing implementation details. &quot;Create a React component that...&quot; or &quot;Write a function that...&quot;
             </p>
@@ -284,10 +284,10 @@ export default function HowPage() {
               Don&apos;t do that.
             </p>
             <p className="leading-relaxed mt-4">
-              Instead, think about what documents a human developer would need to build this app from scratch. Then write those documents. Claude Code reads them the same way a person would.
+              Instead, I asked Claude: &quot;What documents would a human developer need to build this app from scratch?&quot; Claude helped me identify exactly what context Claude Code would need. It reads context files the same way a person would.
             </p>
             <p className="leading-relaxed mt-4">
-              For GUT, we identified four documents:
+              Together, we identified four documents:
             </p>
             <ol className="mt-4 space-y-2">
               <li><strong>PRD</strong> (product requirements): What are we building? What&apos;s the user flow? What are the constraints?</li>
@@ -296,7 +296,7 @@ export default function HowPage() {
               <li><strong>Prompt</strong>: The system prompt for the AI that generates recipes. This is separate from the Claude Code prompt.</li>
             </ol>
             <p className="leading-relaxed mt-4">
-              We explicitly decided NOT to write:
+              Claude and I explicitly decided NOT to write:
             </p>
             <ul className="mt-4 space-y-2">
               <li>Database schema (Claude Code can derive it from the PRD)</li>
@@ -312,12 +312,12 @@ export default function HowPage() {
 
           {/* Step 4 */}
           <section>
-            <h2 className="font-serif text-2xl font-normal mb-4">Step 4: Write the PRD</h2>
+            <h2 className="font-serif text-2xl font-normal mb-4">Step 4: Have Claude Write the PRD</h2>
             <p className="leading-relaxed">
-              The PRD isn&apos;t a formality. It&apos;s the source of truth.
+              The PRD isn&apos;t a formality. It&apos;s the source of truth—and Claude wrote it.
             </p>
             <p className="leading-relaxed mt-4">
-              Here&apos;s what ours covered:
+              I asked Claude to take everything we&apos;d discussed and turn it into a product requirements document. Since we&apos;d already talked through all the hard questions, Claude had the context it needed. Here&apos;s what the PRD covered:
             </p>
             <p className="leading-relaxed mt-4">
               <strong>The thesis</strong>: Every meal is five components. This is non-negotiable. If a dish doesn&apos;t fit the model, it&apos;s out of scope.
@@ -343,7 +343,7 @@ export default function HowPage() {
               <strong>Future features</strong> (out of scope but documented): Pantry optimizer, dietary filters, technique videos.
             </p>
             <p className="leading-relaxed mt-4">
-              The PRD was about 800 words. It took maybe 20 minutes to write because we&apos;d already talked through everything.
+              The PRD was about 800 words. Claude generated it in seconds because we&apos;d already talked through everything—the PRD just documented our conversation in a format that Claude Code could read.
             </p>
           </section>
 
@@ -351,15 +351,15 @@ export default function HowPage() {
 
           {/* Step 5 */}
           <section>
-            <h2 className="font-serif text-2xl font-normal mb-4">Step 5: Write the Design System</h2>
+            <h2 className="font-serif text-2xl font-normal mb-4">Step 5: Have Claude Write the Design System</h2>
             <p className="leading-relaxed">
               This is where most AI-generated apps fall apart. They look generic. They feel like templates.
             </p>
             <p className="leading-relaxed mt-4">
-              The design system document was our chance to give Claude Code actual taste.
+              I told Claude I wanted the app to feel like a modern food magazine—something you&apos;d actually want to read. I referenced Bon Appétit and NYT Cooking. Claude turned that vague direction into a concrete design system document.
             </p>
             <p className="leading-relaxed mt-4">
-              We specified:
+              Claude specified:
             </p>
             <p className="leading-relaxed mt-4">
               <strong>Typography</strong>: Instrument Serif for headlines (editorial feel), Poppins for body (clean and modern). The combination feels like a food magazine, not a SaaS dashboard.
@@ -377,10 +377,10 @@ export default function HowPage() {
               <strong>Reference points</strong>: Bon Appétit&apos;s website. NYT Cooking. Modern food Substacks.
             </p>
             <p className="leading-relaxed mt-4">
-              The goal: &quot;A food magazine that a 25-year-old actually reads.&quot;
+              The goal I gave Claude: &quot;A food magazine that a 25-year-old actually reads.&quot;
             </p>
             <p className="leading-relaxed mt-4">
-              Writing this document forced us to make aesthetic decisions upfront instead of bikeshedding later.
+              Having Claude write this document forced us to make aesthetic decisions upfront instead of bikeshedding later. I reviewed it, made a few tweaks, and we had a design system.
             </p>
           </section>
 
@@ -388,12 +388,12 @@ export default function HowPage() {
 
           {/* Step 6 */}
           <section>
-            <h2 className="font-serif text-2xl font-normal mb-4">Step 6: Write Example Outputs</h2>
+            <h2 className="font-serif text-2xl font-normal mb-4">Step 6: Have Claude Write Example Outputs</h2>
             <p className="leading-relaxed">
               If you&apos;re building something with AI-generated content, you need to show what good looks like.
             </p>
             <p className="leading-relaxed mt-4">
-              We wrote three complete example recipes:
+              I asked Claude to write three complete example recipes that demonstrated the quality and format I wanted:
             </p>
             <ol className="mt-4 space-y-2">
               <li><strong>Thai stir-fry</strong>: Fast, weeknight, 20 minutes</li>
@@ -401,7 +401,7 @@ export default function HowPage() {
               <li><strong>Greek salad</strong>: No-cook, summer, 10 minutes</li>
             </ol>
             <p className="leading-relaxed mt-4">
-              Each example showed the full input-to-output mapping:
+              Claude generated each example with the full input-to-output mapping:
             </p>
             <div className="my-6">
               <CodeBlock
@@ -410,10 +410,10 @@ export default function HowPage() {
               />
             </div>
             <p className="leading-relaxed mt-4">
-              We also documented the format explicitly: short headline, one-sentence headnote, ingredients in order of use, 5-6 steps with specific times and sensory cues, casual accompaniment suggestion at the end.
+              I asked Claude to document the format explicitly: short headline, one-sentence headnote, ingredients in order of use, 5-6 steps with specific times and sensory cues, casual accompaniment suggestion at the end.
             </p>
             <p className="leading-relaxed mt-4">
-              This document serves two purposes. It shows Claude Code what the recipe view should display. And it becomes part of the system prompt for recipe generation.
+              This document serves two purposes. It shows Claude Code what the recipe view should display. And it becomes few-shot examples for the recipe generation prompt.
             </p>
           </section>
 
@@ -421,12 +421,12 @@ export default function HowPage() {
 
           {/* Step 7 */}
           <section>
-            <h2 className="font-serif text-2xl font-normal mb-4">Step 7: Write the Recipe Generation Prompt</h2>
+            <h2 className="font-serif text-2xl font-normal mb-4">Step 7: Co-Write the Recipe Generation Prompt with Claude</h2>
             <p className="leading-relaxed">
-              This is the prompt that runs when someone hits &quot;Make this meal.&quot; It&apos;s separate from the Claude Code prompt.
+              This is the prompt that runs when someone hits &quot;Make this meal.&quot; It&apos;s separate from the Claude Code prompt—this one powers the actual recipe generation.
             </p>
             <p className="leading-relaxed mt-4">
-              The prompt explains:
+              I worked with Claude to craft this prompt. We iterated on it, testing different phrasings until the recipe outputs were consistently good. The prompt explains:
             </p>
             <ul className="mt-4 space-y-2">
               <li>The five F&apos;s framework</li>
@@ -436,7 +436,7 @@ export default function HowPage() {
               <li>Tone (&quot;Write like a food magazine editor who respects the reader&apos;s intelligence&quot;)</li>
             </ul>
             <p className="leading-relaxed mt-4">
-              We also included an example API call showing how the user message should be structured:
+              Claude also helped structure the example API call showing how the user message should be formatted:
             </p>
             <div className="my-6">
               <CodeBlock
@@ -453,12 +453,15 @@ export default function HowPage() {
 
           {/* Step 8 */}
           <section>
-            <h2 className="font-serif text-2xl font-normal mb-4">Step 8: Write the Claude Code Prompt</h2>
+            <h2 className="font-serif text-2xl font-normal mb-4">Step 8: Hand Off to Claude Code in Plan Mode</h2>
             <p className="leading-relaxed">
-              Now we have four context documents. The final step is telling Claude Code what to do with them.
+              Now we have four context documents. The final step is handing everything to Claude Code—and <strong>plan mode is essential</strong>.
             </p>
             <p className="leading-relaxed mt-4">
-              The prompt was structured as a series of tasks with explicit pause points:
+              When you start Claude Code with a complex task, use plan mode. Type <code className="bg-muted px-1.5 py-0.5 rounded text-sm">shift+tab</code> to toggle it on. In plan mode, Claude Code reads your context files, thinks through the implementation, and shows you a plan before writing any code.
+            </p>
+            <p className="leading-relaxed mt-4">
+              This is critical. Without plan mode, Claude Code might start building immediately and make architectural decisions you disagree with. With plan mode, you see the approach first:
             </p>
             <ol className="mt-4 space-y-2">
               <li>Project scaffolding (stop and show me the folder structure)</li>
@@ -471,10 +474,10 @@ export default function HowPage() {
               <li>Deployment prep</li>
             </ol>
             <p className="leading-relaxed mt-4">
-              The key instruction: &quot;Read all four files before proceeding.&quot;
+              The key instruction in my prompt: &quot;Read all four files before proceeding.&quot; Claude Code in plan mode does exactly this—it reads everything, understands the full picture, then proposes how to build it.
             </p>
             <p className="leading-relaxed mt-4">
-              We also told Claude Code how to work with us:
+              I reviewed the plan, approved it, and Claude Code started building. At each major step, it paused for review:
             </p>
             <ul className="mt-4 space-y-2">
               <li>Show schema before running migrations</li>
@@ -539,7 +542,7 @@ export default function HowPage() {
               The bottleneck isn&apos;t coding anymore. It&apos;s thinking.
             </p>
             <p className="leading-relaxed mt-4">
-              The four context documents took about 30 minutes to write. But they required me to answer hard questions:
+              The four context documents took about 30 minutes of conversation with Claude. Claude wrote all of them—I just reviewed and tweaked. But those conversations required me to answer hard questions:
             </p>
             <ul className="mt-4 space-y-2">
               <li>What&apos;s the user flow?</li>
@@ -548,10 +551,10 @@ export default function HowPage() {
               <li>What does good output look like?</li>
             </ul>
             <p className="leading-relaxed mt-4">
-              Once those questions were answered clearly enough for a human to understand, Claude Code could execute.
+              Once I answered those questions in conversation, Claude could document everything. And once the context was documented, Claude Code could execute.
             </p>
             <p className="leading-relaxed mt-4">
-              This is the real skill now. Not writing code. Writing context.
+              This is the real skill now. Not writing code. Not even writing context. Having the right conversations with Claude, then letting Claude write the context for you.
             </p>
           </section>
 
@@ -564,13 +567,13 @@ export default function HowPage() {
               Here&apos;s the process:
             </p>
             <ol className="mt-4 space-y-3">
-              <li><strong>Talk through your idea.</strong> Use Claude (or a human) as a thinking partner. Stress-test your assumptions. Make decisions.</li>
-              <li><strong>Write a PRD.</strong> What are you building? User flow? Constraints? Tech stack? Be specific.</li>
-              <li><strong>Write a design doc.</strong> Typography, colors, spacing, vibe. Include explicit don&apos;ts.</li>
-              <li><strong>Write examples.</strong> If there&apos;s AI-generated content, show what good looks like.</li>
-              <li><strong>Write your prompts.</strong> System prompts for any AI features. These live in the codebase.</li>
-              <li><strong>Write the Claude Code prompt.</strong> Reference your context files. Break work into steps with pause points.</li>
-              <li><strong>Let it build.</strong> Point Claude Code at the context and let it work.</li>
+              <li><strong>Talk through your idea with Claude.</strong> Open claude.ai and explain your concept. Ask Claude to poke holes in it. &quot;What edge cases break this model?&quot; &quot;What&apos;s the simplest version that still works?&quot; Let Claude push back until your thinking is tight.</li>
+              <li><strong>Have Claude draft your PRD.</strong> Tell Claude your idea and ask it to write a product requirements doc. Review it together. Add constraints. Cut scope. Keep iterating until it captures exactly what you&apos;re building.</li>
+              <li><strong>Have Claude create a design system.</strong> Describe the vibe you want—&quot;feels like a food magazine&quot; or &quot;minimal like Linear&quot;—and ask Claude to spec out typography, colors, spacing, and explicit don&apos;ts. Reference sites you like.</li>
+              <li><strong>Generate examples with Claude.</strong> If your app produces content, have Claude write 3-5 examples in the exact format you want. These become both your quality bar and your few-shot examples for prompts.</li>
+              <li><strong>Co-write your system prompts.</strong> Work with Claude to craft the prompts that will power your AI features. Test them in the conversation. Refine until the outputs are consistently good.</li>
+              <li><strong>Build the Claude Code prompt together.</strong> Have Claude help you structure the handoff—what context files to reference, what order to build things, where to pause for review. Claude knows what Claude Code needs.</li>
+              <li><strong>Use plan mode in Claude Code.</strong> Drop your context files in a /context folder, paste the prompt into Claude Code, and hit <code className="bg-muted px-1 py-0.5 rounded text-xs">shift+tab</code> to enable plan mode. Review the plan before any code gets written. Then let it build, reviewing at each pause point.</li>
             </ol>
             <p className="leading-relaxed mt-6">
               The context is the product now. Write it well.
@@ -604,7 +607,16 @@ export default function HowPage() {
               >
                 Claude Code
               </a>
-              . The context documents are in the repo if you want to see what Claude was working from.
+              . The context documents are in{' '}
+              <a
+                href="https://github.com/gregoryehill/gut"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground underline underline-offset-2 hover:text-primary transition-colors"
+              >
+                the repo
+              </a>
+              {' '}if you want to see what Claude was working from.
             </p>
           </section>
         </article>

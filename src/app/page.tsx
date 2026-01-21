@@ -152,6 +152,15 @@ export default function Home() {
             >
               How is GUT?
             </Link>
+            <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
+            <a
+              href="https://github.com/gregoryehill/gut"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
+            >
+              GitHub
+            </a>
           </div>
           
         </header>
