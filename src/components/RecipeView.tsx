@@ -47,6 +47,10 @@ export function RecipeView({
       const url = `${window.location.origin}/recipe/${id}`;
       setSavedUrl(url);
       setSaveState('saved');
+      // Automatically copy link to clipboard
+      await navigator.clipboard.writeText(url);
+      setCopied('link');
+      setTimeout(() => setCopied(null), 2000);
     } catch {
       setSaveState('error');
       setTimeout(() => setSaveState('idle'), 3000);
