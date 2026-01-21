@@ -43,6 +43,16 @@ export interface FeedbackEntry {
   created_at: string;
 }
 
+export interface SavedRecipe {
+  id: string;
+  cuisine: string;
+  season: Season;
+  servings: number;
+  ingredients: SelectedIngredients;
+  recipe_text: string;
+  created_at: string;
+}
+
 export const INGREDIENT_CATEGORIES: IngredientCategory[] = [
   'fat',
   'foundation',
@@ -67,4 +77,4 @@ export const CATEGORY_DESCRIPTIONS: Record<IngredientCategory, string> = {
   finish: 'Brightness & balance',
 };
 
-export const SERVINGS_OPTIONS = [2, 4, 6, 8] as const;
+export const SERVINGS_OPTIONS = [1, 2, 4, 6, 8] as const;

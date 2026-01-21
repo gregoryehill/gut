@@ -81,18 +81,19 @@ export default function Home() {
     });
   };
 
-  const handleThumbsDown = () => {
-    if (!selectedCuisine) return;
+  const handleFeedback = (rating: 'positive' | 'negative') => {
+    if (!selectedCuisine || !recipe) return;
 
-    submitFeedback({
-      cuisine: selectedCuisine.name,
-      season,
-      servings,
-      ingredients,
-    });
-
-    // Regenerate with same inputs
-    handleGenerate();
+    submitFeedback(
+      {
+        cuisine: selectedCuisine.name,
+        season,
+        servings,
+        ingredients,
+      },
+      recipe,
+      rating
+    );
   };
 
   const handleRegenerate = () => {
@@ -117,7 +118,7 @@ export default function Home() {
               ingredients,
             }}
             onBack={handleBack}
-            onThumbsDown={handleThumbsDown}
+            onFeedback={handleFeedback}
             onRegenerate={handleRegenerate}
             isRegenerating={recipeLoading}
           />

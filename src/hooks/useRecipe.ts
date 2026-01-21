@@ -9,7 +9,7 @@ interface UseRecipeReturn {
   error: string | null;
   generateRecipe: (request: RecipeRequest) => Promise<void>;
   clearRecipe: () => void;
-  submitFeedback: (request: RecipeRequest) => Promise<void>;
+  submitFeedback: (request: RecipeRequest, recipeText: string, rating: 'positive' | 'negative') => Promise<void>;
 }
 
 export function useRecipe(): UseRecipeReturn {
@@ -48,14 +48,18 @@ export function useRecipe(): UseRecipeReturn {
     setError(null);
   }, []);
 
-  const submitFeedback = useCallback(async (request: RecipeRequest) => {
+  const submitFeedback = useCallback(async (request: RecipeRequest, recipeText: string, rating: 'positive' | 'negative') => {
     try {
       await fetch('/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ recipe_inputs: request }),
+        body: JSON.stringify({
+          recipe_inputs: request,
+          recipe_text: recipeText,
+          rating,
+        }),
       });
     } catch (err) {
       console.error('Failed to submit feedback:', err);
