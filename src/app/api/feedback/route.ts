@@ -1,27 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-// Use service role for server-side insert (bypasses RLS)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { supabase } from '@/lib/supabase';
+import { feedbackSchema } from '@/lib/validation';
+import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rateLimit';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { recipe_inputs, recipe_text, rating } = body;
+    // Rate limiting
+    const clientIp = getClientIp(request.headers);
+    const rateLimitResult = checkRateLimit(`feedback:${clientIp}`, RATE_LIMITS.feedback);
 
-    if (!recipe_inputs) {
+    if (!rateLimitResult.success) {
       return NextResponse.json(
-        { error: 'recipe_inputs is required' },
+        { error: 'Too many requests. Please try again later.' },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)),
+            'X-RateLimit-Remaining': '0',
+          },
+        }
+      );
+    }
+
+    const body = await request.json();
+
+    // Validate input with Zod schema
+    const parseResult = feedbackSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: parseResult.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
 
+    const { recipe_inputs, recipe_text, rating } = parseResult.data;
+
     const { error } = await supabase.from('feedback').insert({
       recipe_inputs,
       recipe_text,
-      rating, // 'positive' or 'negative'
+      rating,
     });
 
     if (error) {
@@ -34,7 +51,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error processing feedback:', error);
+    // Log error without exposing details to client
+    console.error('Error processing feedback:', error instanceof Error ? error.message : 'Unknown error');
     return NextResponse.json(
       { error: 'Failed to process feedback' },
       { status: 500 }

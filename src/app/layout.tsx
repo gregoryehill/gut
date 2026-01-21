@@ -17,7 +17,23 @@ const robotoMono = Roboto_Mono({
 
 export const metadata: Metadata = {
   title: "GUT - Grand Unified Theory of Cooking",
-  description: "Generate recipes using the five fundamental components of cooking",
+  description: "Generate recipes using the five fundamental components of cooking. For people who ship code, and want to ship dinner too.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://gut.cooking'),
+  openGraph: {
+    title: "GUT - Grand Unified Theory of Cooking",
+    description: "Generate recipes using the five fundamental components of cooking. For people who ship code, and want to ship dinner too.",
+    siteName: "GUT",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GUT - Grand Unified Theory of Cooking",
+    description: "Generate recipes using the five fundamental components of cooking. For people who ship code, and want to ship dinner too.",
+  },
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

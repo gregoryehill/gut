@@ -1,8 +1,9 @@
-// Generate a short, URL-safe unique ID
-// Uses lowercase alphanumeric characters for clean URLs
+// Generate a URL-safe unique ID with high entropy
+// Uses base62 encoding (alphanumeric) for clean URLs
+// 12 characters provides ~71 bits of entropy (much stronger than 8 chars)
 
-const ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789';
-const ID_LENGTH = 8;
+const ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const ID_LENGTH = 12;
 
 export function generateShortId(): string {
   let id = '';

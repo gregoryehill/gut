@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5F7FA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E8EBF0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8A598;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D4847A;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="100" cy="530" r="180" fill="#E8A598" opacity="0.15"/>
+  <circle cx="1100" cy="100" r="200" fill="#D4E157" opacity="0.15"/>
+
+  <!-- Main content area -->
+  <g transform="translate(100, 180)">
+    <!-- G.U.T. Title -->
+    <text
+      x="500"
+      y="80"
+      font-family="Georgia, 'Times New Roman', serif"
+      font-size="140"
+      font-weight="400"
+      font-style="italic"
+      fill="#1a1a1a"
+      text-anchor="middle"
+      letter-spacing="-2"
+    >G.U.T.</text>
+
+    <!-- Tagline -->
+    <text
+      x="500"
+      y="160"
+      font-family="Georgia, 'Times New Roman', serif"
+      font-size="32"
+      font-style="italic"
+      fill="#666666"
+      text-anchor="middle"
+    >Grand Unified Theory of Cooking</text>
+
+    <!-- Subtitle -->
+    <text
+      x="500"
+      y="230"
+      font-family="Helvetica, Arial, sans-serif"
+      font-size="24"
+      fill="#888888"
+      text-anchor="middle"
+    >For people who ship code, and want to ship dinner too.</text>
+  </g>
+
+  <!-- 5 F's icons row -->
+  <g transform="translate(200, 420)">
+    <!-- Fat -->
+    <g transform="translate(0, 0)">
+      <circle cx="40" cy="30" r="35" fill="#E8A598" opacity="0.3"/>
+      <text x="40" y="90" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#666" text-anchor="middle">Fat</text>
+    </g>
+    <!-- Foundation -->
+    <g transform="translate(160, 0)">
+      <circle cx="40" cy="30" r="35" fill="#A8D5BA" opacity="0.3"/>
+      <text x="40" y="90" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#666" text-anchor="middle">Foundation</text>
+    </g>
+    <!-- Feature -->
+    <g transform="translate(320, 0)">
+      <circle cx="40" cy="30" r="35" fill="#E8B4A8" opacity="0.3"/>
+      <text x="40" y="90" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#666" text-anchor="middle">Feature</text>
+    </g>
+    <!-- Flavor -->
+    <g transform="translate(480, 0)">
+      <circle cx="40" cy="30" r="35" fill="#B4C8E8" opacity="0.3"/>
+      <text x="40" y="90" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#666" text-anchor="middle">Flavor</text>
+    </g>
+    <!-- Finish -->
+    <g transform="translate(640, 0)">
+      <circle cx="40" cy="30" r="35" fill="#D4E157" opacity="0.3"/>
+      <text x="40" y="90" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#666" text-anchor="middle">Finish</text>
+    </g>
+  </g>
+
+  <!-- Cooking pan icon -->
+  <g transform="translate(950, 250)">
+    <circle cx="60" cy="60" r="50" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+    <line x1="110" y1="60" x2="160" y2="60" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+    <!-- Steam -->
+    <path d="M35 10 Q45 -5 35 -20" fill="none" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+    <path d="M60 5 Q70 -10 60 -25" fill="none" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+    <path d="M85 10 Q95 -5 85 -20" fill="none" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

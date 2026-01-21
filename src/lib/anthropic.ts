@@ -1,9 +1,22 @@
 import Anthropic from '@anthropic-ai/sdk';
 
+const apiKey = process.env.ANTHROPIC_API_KEY;
+
 // Server-side only - do not import in client components
+// Will fail at runtime if API key is missing (appropriate behavior)
 export const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+  apiKey: apiKey || '',
 });
+
+// Helper to validate API key at runtime (call this in API routes if needed)
+export function validateAnthropicApiKey(): void {
+  if (!apiKey) {
+    throw new Error(
+      'ANTHROPIC_API_KEY environment variable is required. ' +
+      'Set it in .env.local or your deployment environment.'
+    );
+  }
+}
 
 export const RECIPE_SYSTEM_PROMPT = `You are a recipe writer for GUT (Grand Unified Theory of Cooking), a meal planning app. Your job is to write simple, confident recipes in the style of NYT Cooking.
 
@@ -75,8 +88,20 @@ Write a complete recipe that:
 - Active voice, direct tone
 
 **Accompaniments:**
-- Final line suggests what to serve with
+- Final line suggests what to serve with — be specific to the cuisine
 - Casual tone: "Serve over jasmine rice." / "Crusty bread is mandatory." / "Good with warm pita."
+- Common pairings by cuisine:
+  - **Italian:** pasta (specify shape: rigatoni for chunky sauces, spaghetti for light ones), crusty bread, polenta, risotto
+  - **Asian (Chinese, Thai, Vietnamese):** jasmine rice, steamed rice, rice noodles, crispy wonton strips
+  - **Japanese:** short-grain rice, udon, soba, steamed edamame
+  - **Korean:** short-grain rice, kimchi, pickled vegetables
+  - **Indian:** basmati rice, naan, roti, raita
+  - **Mexican/Latin:** rice, warm tortillas, beans, chips
+  - **Middle Eastern/Mediterranean:** pita, flatbread, couscous, tabbouleh, hummus
+  - **French:** crusty bread, mashed potatoes, frites, a simple green salad
+  - **American:** mashed potatoes, biscuits, cornbread, coleslaw
+- Match the starch to the sauce: saucy dishes need something to soak it up; drier dishes can stand alone with a simple side
+- Feel free to suggest 2 options when appropriate: "Serve over rice or with crusty bread for mopping."
 
 ## Constraints
 
