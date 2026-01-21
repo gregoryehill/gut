@@ -24,6 +24,7 @@ export function RecipeView({
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [savedUrl, setSavedUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState<'link' | 'recipe' | null>(null);
+  const [justSaved, setJustSaved] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState<'positive' | 'negative' | null>(null);
 
@@ -49,8 +50,8 @@ export function RecipeView({
       setSaveState('saved');
       // Automatically copy link to clipboard
       await navigator.clipboard.writeText(url);
-      setCopied('link');
-      setTimeout(() => setCopied(null), 2000);
+      setJustSaved(true);
+      setTimeout(() => setJustSaved(false), 2500);
     } catch {
       setSaveState('error');
       setTimeout(() => setSaveState('idle'), 3000);
@@ -148,11 +149,17 @@ export function RecipeView({
               onClick={handleShare}
               className="group relative p-2 text-primary hover:text-primary/80 transition-colors"
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-              </svg>
-              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-foreground text-background text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                {copied === 'link' ? 'Copied!' : 'Share link'}
+              {justSaved ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                </svg>
+              )}
+              <span className={`absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-foreground text-background text-xs rounded whitespace-nowrap pointer-events-none transition-opacity ${justSaved ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                {justSaved ? 'Saved! Link copied' : copied === 'link' ? 'Copied!' : 'Share link'}
               </span>
             </button>
           )}
