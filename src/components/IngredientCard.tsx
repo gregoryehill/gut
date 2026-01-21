@@ -49,7 +49,7 @@ export function IngredientCard({
 
         {/* Ingredient name - the hero */}
         <div className="flex-1 min-h-[3.5rem] sm:min-h-[4rem] flex items-center justify-center text-center py-3">
-          {isLoading ? (
+          {isLoading && !isLocked ? (
             <div className="h-6 w-28 bg-muted/50 animate-pulse rounded" />
           ) : ingredient ? (
             <p className="font-serif text-xl sm:text-2xl font-medium text-foreground">{ingredient.name}</p>
