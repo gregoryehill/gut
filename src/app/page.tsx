@@ -148,35 +148,35 @@ export default function Home() {
           <p className="font-serif text-muted-foreground text-lg sm:text-xl md:text-2xl max-w-lg mx-auto">
             Five ingredients. Any cuisine. Dinner, simplified.
           </p>
-          <div className="flex items-center justify-center gap-4 mt-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4 px-4">
             <Link
               href="/about"
               className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
             >
               What is GUT?
             </Link>
-            <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
+            <span className="text-foreground/40 text-lg hidden sm:inline" aria-hidden="true">&#x1F373;</span>
             <Link
               href="/how"
               className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
             >
               How is GUT?
             </Link>
-            <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
+            <span className="text-foreground/40 text-lg hidden sm:inline" aria-hidden="true">&#x1F373;</span>
             <Link
               href="/pantry"
               className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
             >
               Pantry List
             </Link>
-            <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
+            <span className="text-foreground/40 text-lg hidden sm:inline" aria-hidden="true">&#x1F373;</span>
             <Link
               href="/recipes"
               className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
             >
               Saved Recipes
             </Link>
-            <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
+            <span className="text-foreground/40 text-lg hidden sm:inline" aria-hidden="true">&#x1F373;</span>
             <a
               href="https://github.com/gregoryehill/gut"
               target="_blank"
