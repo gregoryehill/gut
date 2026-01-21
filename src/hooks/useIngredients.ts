@@ -69,8 +69,8 @@ export function useIngredients() {
         return null;
       }
 
-      // Pick a random one client-side
-      const randomIndex = Math.floor(Math.random() * data.length);
+      // Pick a random one client-side using crypto for better randomness
+      const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] % data.length;
       const item = data[randomIndex];
 
       return {

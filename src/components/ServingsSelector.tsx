@@ -32,7 +32,7 @@ export function ServingsSelector({ value, onChange }: ServingsSelectorProps) {
         <SelectContent>
           {SERVINGS_OPTIONS.map((num) => (
             <SelectItem key={num} value={num.toString()} className="py-2.5">
-              {num} {num === 1 ? 'serving' : 'servings'}
+              {num} servings
             </SelectItem>
           ))}
         </SelectContent>

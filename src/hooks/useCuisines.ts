@@ -44,7 +44,8 @@ export function useCuisines() {
   const randomizeCuisine = useCallback(() => {
     if (cuisines.length === 0) return;
 
-    const randomIndex = Math.floor(Math.random() * cuisines.length);
+    // Use crypto for better randomness
+    const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] % cuisines.length;
     setSelectedCuisine(cuisines[randomIndex]);
   }, [cuisines]);
 
