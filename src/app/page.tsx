@@ -8,6 +8,7 @@ import { ServingsSelector } from '@/components/ServingsSelector';
 import { IngredientGrid } from '@/components/IngredientGrid';
 import { GenerateButton } from '@/components/GenerateButton';
 import { RecipeView } from '@/components/RecipeView';
+import { RecentRecipes } from '@/components/RecentRecipes';
 import { useCuisines } from '@/hooks/useCuisines';
 import { useIngredients } from '@/hooks/useIngredients';
 import { useRecipe } from '@/hooks/useRecipe';
@@ -30,9 +31,11 @@ export default function Home() {
   const {
     ingredients,
     lockedIngredients,
+    specialtySuggestions,
     isLoading: ingredientsLoading,
     fetchAllIngredients,
     rerollIngredient,
+    useSpecialty,
     toggleLock,
     allSelected,
   } = useIngredients();
@@ -143,7 +146,7 @@ export default function Home() {
             G.U.T.
           </h1>
           <p className="font-serif text-muted-foreground text-lg sm:text-xl md:text-2xl max-w-lg mx-auto">
-            A Grand Unified Theory of Cooking for people who ship code, and want to ship dinner too.
+            Five ingredients. Any cuisine. Dinner, simplified.
           </p>
           <div className="flex items-center justify-center gap-4 mt-4">
             <Link
@@ -158,6 +161,20 @@ export default function Home() {
               className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
             >
               How is GUT?
+            </Link>
+            <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
+            <Link
+              href="/pantry"
+              className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
+            >
+              Pantry List
+            </Link>
+            <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
+            <Link
+              href="/recipes"
+              className="text-sm text-foreground hover:text-primary underline underline-offset-4 transition-colors"
+            >
+              Saved Recipes
             </Link>
             <span className="text-foreground/40 text-lg" aria-hidden="true">&#x1F373;</span>
             <a
@@ -196,8 +213,10 @@ export default function Home() {
               <IngredientGrid
                 ingredients={ingredients}
                 lockedIngredients={lockedIngredients}
+                specialtySuggestions={specialtySuggestions}
                 onToggleLock={toggleLock}
                 onReroll={handleReroll}
+                onUseSpecialty={useSpecialty}
                 isLoading={ingredientsLoading}
               />
             </div>
@@ -217,6 +236,9 @@ export default function Home() {
                 Select a cuisine to get started
               </p>
             )}
+
+            {/* Recent recipes */}
+            <RecentRecipes />
           </>
         )}
       </div>

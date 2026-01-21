@@ -22,6 +22,15 @@ export interface SelectedIngredients {
   finish: Ingredient | null;
 }
 
+// Tracks a specialty "upgrade" suggestion for each category
+export interface SpecialtySuggestions {
+  fat: Ingredient | null;
+  foundation: Ingredient | null;
+  feature: Ingredient | null;
+  flavor: Ingredient | null;
+  finish: Ingredient | null;
+}
+
 export interface LockedIngredients {
   fat: boolean;
   foundation: boolean;

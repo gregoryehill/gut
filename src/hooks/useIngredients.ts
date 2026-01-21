@@ -2,11 +2,13 @@
 
 import { useState, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
+import { isCoreStaple } from '@/utils/perishability';
 import type {
   Ingredient,
   IngredientCategory,
   SelectedIngredients,
   LockedIngredients,
+  SpecialtySuggestions,
 } from '@/types';
 import { INGREDIENT_CATEGORIES } from '@/types';
 
@@ -26,19 +28,36 @@ const EMPTY_LOCKS: LockedIngredients = {
   finish: false,
 };
 
+const EMPTY_SPECIALTIES: SpecialtySuggestions = {
+  fat: null,
+  foundation: null,
+  feature: null,
+  flavor: null,
+  finish: null,
+};
+
+// Helper to pick a random item from an array
+function pickRandom<T>(arr: T[]): T | null {
+  if (arr.length === 0) return null;
+  const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] % arr.length;
+  return arr[randomIndex];
+}
+
 export function useIngredients() {
   const [ingredients, setIngredients] =
     useState<SelectedIngredients>(EMPTY_INGREDIENTS);
   const [lockedIngredients, setLockedIngredients] =
     useState<LockedIngredients>(EMPTY_LOCKS);
+  const [specialtySuggestions, setSpecialtySuggestions] =
+    useState<SpecialtySuggestions>(EMPTY_SPECIALTIES);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch a random ingredient for a specific category and cuisine
-  const fetchRandomIngredient = useCallback(
+  // Fetch ingredients for a category, split into essentials and specialties
+  const fetchIngredientsForCategory = useCallback(
     async (
       cuisineId: string,
       category: IngredientCategory
-    ): Promise<Ingredient | null> => {
+    ): Promise<{ essential: Ingredient | null; specialty: Ingredient | null }> => {
       // First get ingredient IDs for this cuisine
       const { data: links, error: linksError } = await supabase
         .from('cuisine_ingredients')
@@ -47,12 +66,12 @@ export function useIngredients() {
 
       if (linksError || !links || links.length === 0) {
         console.error('Error fetching cuisine ingredients:', linksError);
-        return null;
+        return { essential: null, specialty: null };
       }
 
       const ingredientIds = links.map((l) => l.ingredient_id);
 
-      // Now fetch ingredients matching category and IDs
+      // Fetch all ingredients matching category and IDs
       const { data, error } = await supabase
         .from('ingredients')
         .select('id, name, category, tags')
@@ -61,24 +80,46 @@ export function useIngredients() {
 
       if (error) {
         console.error('Supabase error fetching ingredient:', error.message, error);
-        return null;
+        return { essential: null, specialty: null };
       }
 
       if (!data || data.length === 0) {
         console.warn(`No ingredients found for category "${category}" in cuisine "${cuisineId}"`);
-        return null;
+        return { essential: null, specialty: null };
       }
 
-      // Pick a random one client-side using crypto for better randomness
-      const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] % data.length;
-      const item = data[randomIndex];
-
-      return {
+      // Split into essentials and specialties
+      const allIngredients: Ingredient[] = data.map((item) => ({
         id: item.id,
         name: item.name,
         category: item.category as IngredientCategory,
         tags: item.tags || [],
-      };
+      }));
+
+      const essentials = allIngredients.filter((ing) =>
+        isCoreStaple(ing.name, ing.category)
+      );
+      const specialties = allIngredients.filter(
+        (ing) => !isCoreStaple(ing.name, ing.category)
+      );
+
+      // Pick a random essential (preferred) or fall back to any ingredient
+      let essential: Ingredient | null = null;
+      if (essentials.length > 0) {
+        essential = pickRandom(essentials);
+      } else {
+        // No essentials available for this cuisine/category, use any
+        essential = pickRandom(allIngredients);
+      }
+
+      // Pick a random specialty as the "upgrade" suggestion
+      // Make sure it's different from the essential we picked
+      const availableSpecialties = specialties.filter(
+        (s) => s.id !== essential?.id
+      );
+      const specialty = pickRandom(availableSpecialties);
+
+      return { essential, specialty };
     },
     []
   );
@@ -86,36 +127,44 @@ export function useIngredients() {
   // Fetch all ingredients for a cuisine (respects locks)
   const fetchAllIngredients = useCallback(
     async (cuisineId: string) => {
-      console.log('fetchAllIngredients called with cuisineId:', cuisineId);
       setIsLoading(true);
 
       // Fetch all categories in parallel
       const results = await Promise.all(
         INGREDIENT_CATEGORIES.map(async (category) => {
-          const ingredient = await fetchRandomIngredient(cuisineId, category);
-          console.log(`Fetched ${category}:`, ingredient?.name ?? 'null');
-          return { category, ingredient };
+          const { essential, specialty } = await fetchIngredientsForCategory(
+            cuisineId,
+            category
+          );
+          return { category, essential, specialty };
         })
       );
-
-      console.log('All results:', results);
 
       // Update state, preserving locked ingredients
       setIngredients((prev) => {
         const updated = { ...prev };
-        for (const { category, ingredient } of results) {
-          // Only update if not locked and we got a result
-          if (!lockedIngredients[category] && ingredient) {
-            updated[category] = ingredient;
+        for (const { category, essential } of results) {
+          if (!lockedIngredients[category] && essential) {
+            updated[category] = essential;
           }
         }
-        console.log('Updated ingredients:', updated);
+        return updated;
+      });
+
+      // Update specialty suggestions (these don't get locked)
+      setSpecialtySuggestions((prev) => {
+        const updated = { ...prev };
+        for (const { category, specialty } of results) {
+          if (!lockedIngredients[category]) {
+            updated[category] = specialty;
+          }
+        }
         return updated;
       });
 
       setIsLoading(false);
     },
-    [lockedIngredients, fetchRandomIngredient]
+    [lockedIngredients, fetchIngredientsForCategory]
   );
 
   // Re-roll a single ingredient
@@ -123,15 +172,46 @@ export function useIngredients() {
     async (cuisineId: string, category: IngredientCategory) => {
       if (lockedIngredients[category]) return;
 
-      const ingredient = await fetchRandomIngredient(cuisineId, category);
-      if (ingredient) {
+      const { essential, specialty } = await fetchIngredientsForCategory(
+        cuisineId,
+        category
+      );
+
+      if (essential) {
         setIngredients((prev) => ({
           ...prev,
-          [category]: ingredient,
+          [category]: essential,
         }));
       }
+
+      setSpecialtySuggestions((prev) => ({
+        ...prev,
+        [category]: specialty,
+      }));
     },
-    [lockedIngredients, fetchRandomIngredient]
+    [lockedIngredients, fetchIngredientsForCategory]
+  );
+
+  // Swap current ingredient with the specialty suggestion
+  const useSpecialty = useCallback(
+    (category: IngredientCategory) => {
+      const specialty = specialtySuggestions[category];
+      const current = ingredients[category];
+
+      if (!specialty || lockedIngredients[category]) return;
+
+      // Swap: specialty becomes the main, current becomes the suggestion
+      setIngredients((prev) => ({
+        ...prev,
+        [category]: specialty,
+      }));
+
+      setSpecialtySuggestions((prev) => ({
+        ...prev,
+        [category]: current,
+      }));
+    },
+    [specialtySuggestions, ingredients, lockedIngredients]
   );
 
   // Toggle lock state for a category
@@ -146,6 +226,7 @@ export function useIngredients() {
   const reset = useCallback(() => {
     setIngredients(EMPTY_INGREDIENTS);
     setLockedIngredients(EMPTY_LOCKS);
+    setSpecialtySuggestions(EMPTY_SPECIALTIES);
   }, []);
 
   // Check if all ingredients are selected
@@ -156,9 +237,11 @@ export function useIngredients() {
   return {
     ingredients,
     lockedIngredients,
+    specialtySuggestions,
     isLoading,
     fetchAllIngredients,
     rerollIngredient,
+    useSpecialty,
     toggleLock,
     reset,
     allSelected,

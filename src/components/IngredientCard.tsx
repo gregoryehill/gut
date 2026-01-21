@@ -8,9 +8,11 @@ import { CATEGORY_LABELS, CATEGORY_DESCRIPTIONS } from '@/types';
 interface IngredientCardProps {
   category: IngredientCategory;
   ingredient: Ingredient | null;
+  specialtySuggestion: Ingredient | null;
   isLocked: boolean;
   onToggleLock: () => void;
   onReroll: () => void;
+  onUseSpecialty: () => void;
   isLoading?: boolean;
 }
 
@@ -25,9 +27,11 @@ const CATEGORY_COLORS: Record<IngredientCategory, string> = {
 export function IngredientCard({
   category,
   ingredient,
+  specialtySuggestion,
   isLocked,
   onToggleLock,
   onReroll,
+  onUseSpecialty,
   isLoading = false,
 }: IngredientCardProps) {
   return (
@@ -48,11 +52,25 @@ export function IngredientCard({
         </div>
 
         {/* Ingredient name - the hero */}
-        <div className="flex-1 min-h-[3.5rem] sm:min-h-[4rem] flex items-center justify-center text-center py-3">
+        <div className="flex-1 min-h-[3.5rem] sm:min-h-[4rem] flex flex-col items-center justify-center text-center py-3">
           {isLoading && !isLocked ? (
             <div className="h-6 w-28 bg-muted/50 animate-pulse rounded" />
           ) : ingredient ? (
-            <p className="font-serif text-xl sm:text-2xl font-medium text-foreground">{ingredient.name}</p>
+            <>
+              <p className="font-serif text-xl sm:text-2xl font-medium text-foreground">
+                {ingredient.name}
+              </p>
+              {/* Specialty suggestion - clickable to swap */}
+              {specialtySuggestion && !isLocked && (
+                <button
+                  onClick={onUseSpecialty}
+                  className="mt-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  title={`Switch to ${specialtySuggestion.name}`}
+                >
+                  or try: <span className="underline underline-offset-2">{specialtySuggestion.name}</span>
+                </button>
+              )}
+            </>
           ) : (
             <p className="text-sm text-muted-foreground italic">
               Select a cuisine
