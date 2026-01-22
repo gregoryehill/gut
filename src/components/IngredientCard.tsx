@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
 import type { Ingredient, IngredientCategory } from '@/types';
 import { CATEGORY_LABELS, CATEGORY_DESCRIPTIONS } from '@/types';
 
@@ -13,7 +14,9 @@ interface IngredientCardProps {
   onToggleLock: () => void;
   onReroll: () => void;
   onUseSpecialty: () => void;
+  onSelect: () => void;
   isLoading?: boolean;
+  canSelect?: boolean;
 }
 
 const CATEGORY_COLORS: Record<IngredientCategory, string> = {
@@ -32,7 +35,9 @@ export function IngredientCard({
   onToggleLock,
   onReroll,
   onUseSpecialty,
+  onSelect,
   isLoading = false,
+  canSelect = false,
 }: IngredientCardProps) {
   return (
     <Card
@@ -57,9 +62,21 @@ export function IngredientCard({
             <div className="h-6 w-28 bg-muted/50 animate-pulse rounded" />
           ) : ingredient ? (
             <>
-              <p className="font-serif text-xl sm:text-2xl font-medium text-foreground">
+              <button
+                onClick={canSelect && !isLocked ? onSelect : undefined}
+                disabled={!canSelect || isLocked}
+                className={`font-serif text-xl sm:text-2xl font-medium text-foreground inline-flex items-center gap-1 ${
+                  canSelect && !isLocked
+                    ? 'hover:text-primary cursor-pointer transition-colors'
+                    : ''
+                }`}
+                title={canSelect && !isLocked ? 'Click to change ingredient' : undefined}
+              >
                 {ingredient.name}
-              </p>
+                {canSelect && !isLocked && (
+                  <ChevronDown className="w-4 h-4 opacity-50" />
+                )}
+              </button>
               {/* Specialty suggestion - clickable to swap */}
               {specialtySuggestion && !isLocked && (
                 <button
@@ -71,6 +88,14 @@ export function IngredientCard({
                 </button>
               )}
             </>
+          ) : canSelect ? (
+            <button
+              onClick={onSelect}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 border border-dashed border-muted-foreground/30 rounded-md px-3 py-2 hover:border-foreground/50"
+            >
+              Choose
+              <ChevronDown className="w-3 h-3" />
+            </button>
           ) : (
             <p className="text-sm text-muted-foreground italic">
               Select a cuisine

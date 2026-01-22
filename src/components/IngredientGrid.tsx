@@ -16,7 +16,9 @@ interface IngredientGridProps {
   onToggleLock: (category: IngredientCategory) => void;
   onReroll: (category: IngredientCategory) => void;
   onUseSpecialty: (category: IngredientCategory) => void;
+  onSelect: (category: IngredientCategory) => void;
   isLoading?: boolean;
+  canSelect?: boolean;
 }
 
 export function IngredientGrid({
@@ -26,7 +28,9 @@ export function IngredientGrid({
   onToggleLock,
   onReroll,
   onUseSpecialty,
+  onSelect,
   isLoading = false,
+  canSelect = false,
 }: IngredientGridProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
@@ -40,7 +44,9 @@ export function IngredientGrid({
           onToggleLock={() => onToggleLock(category)}
           onReroll={() => onReroll(category)}
           onUseSpecialty={() => onUseSpecialty(category)}
+          onSelect={() => onSelect(category)}
           isLoading={isLoading}
+          canSelect={canSelect}
         />
       ))}
     </div>

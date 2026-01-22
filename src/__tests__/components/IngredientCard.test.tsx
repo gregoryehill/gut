@@ -10,16 +10,28 @@ const mockIngredient: Ingredient = {
   tags: ['italian', 'mediterranean'],
 };
 
+const mockSpecialty: Ingredient = {
+  id: 'test-2',
+  name: 'Sesame oil',
+  category: 'fat',
+  tags: ['asian'],
+};
+
+const defaultProps = {
+  category: 'fat' as const,
+  ingredient: mockIngredient,
+  specialtySuggestion: null as Ingredient | null,
+  isLocked: false,
+  onToggleLock: () => {},
+  onReroll: () => {},
+  onUseSpecialty: () => {},
+  onSelect: () => {},
+};
+
 describe('IngredientCard', () => {
   test('renders category label', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} />
     );
 
     expect(getByText('Fat')).toBeDefined();
@@ -27,13 +39,7 @@ describe('IngredientCard', () => {
 
   test('renders category description', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} />
     );
 
     expect(getByText('The cooking medium')).toBeDefined();
@@ -41,13 +47,7 @@ describe('IngredientCard', () => {
 
   test('renders ingredient name', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} />
     );
 
     expect(getByText('Olive oil')).toBeDefined();
@@ -55,13 +55,7 @@ describe('IngredientCard', () => {
 
   test('shows placeholder when no ingredient', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={null}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} ingredient={null} />
     );
 
     expect(getByText('Select a cuisine')).toBeDefined();
@@ -69,14 +63,7 @@ describe('IngredientCard', () => {
 
   test('shows loading state', () => {
     const { container } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={null}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-        isLoading={true}
-      />
+      <IngredientCard {...defaultProps} ingredient={null} isLoading={true} />
     );
 
     // Should show loading skeleton
@@ -87,13 +74,7 @@ describe('IngredientCard', () => {
   test('calls onToggleLock when lock button clicked', () => {
     const handleToggleLock = mock(() => {});
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={false}
-        onToggleLock={handleToggleLock}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} onToggleLock={handleToggleLock} />
     );
 
     fireEvent.click(getByText('Lock'));
@@ -104,13 +85,7 @@ describe('IngredientCard', () => {
   test('calls onReroll when reroll button clicked', () => {
     const handleReroll = mock(() => {});
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={handleReroll}
-      />
+      <IngredientCard {...defaultProps} onReroll={handleReroll} />
     );
 
     fireEvent.click(getByText('Reroll'));
@@ -120,13 +95,7 @@ describe('IngredientCard', () => {
 
   test('shows "Locked" when isLocked is true', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={true}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} isLocked={true} />
     );
 
     expect(getByText('Locked')).toBeDefined();
@@ -134,13 +103,7 @@ describe('IngredientCard', () => {
 
   test('lock button is disabled when no ingredient', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={null}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} ingredient={null} />
     );
 
     const lockButton = getByText('Lock').closest('button');
@@ -149,13 +112,7 @@ describe('IngredientCard', () => {
 
   test('reroll button is disabled when locked', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={true}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} isLocked={true} />
     );
 
     const rerollButton = getByText('Reroll').closest('button');
@@ -164,13 +121,7 @@ describe('IngredientCard', () => {
 
   test('reroll button is disabled when no ingredient', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={null}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} ingredient={null} />
     );
 
     const rerollButton = getByText('Reroll').closest('button');
@@ -179,14 +130,7 @@ describe('IngredientCard', () => {
 
   test('reroll button is disabled when loading', () => {
     const { getByText } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={false}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-        isLoading={true}
-      />
+      <IngredientCard {...defaultProps} isLoading={true} />
     );
 
     const rerollButton = getByText('Reroll').closest('button');
@@ -200,11 +144,9 @@ describe('IngredientCard', () => {
     categories.forEach((category, index) => {
       const { getByText, unmount } = render(
         <IngredientCard
+          {...defaultProps}
           category={category}
           ingredient={{ ...mockIngredient, category }}
-          isLocked={false}
-          onToggleLock={() => {}}
-          onReroll={() => {}}
         />
       );
 
@@ -215,16 +157,79 @@ describe('IngredientCard', () => {
 
   test('applies ring styling when locked', () => {
     const { container } = render(
-      <IngredientCard
-        category="fat"
-        ingredient={mockIngredient}
-        isLocked={true}
-        onToggleLock={() => {}}
-        onReroll={() => {}}
-      />
+      <IngredientCard {...defaultProps} isLocked={true} />
     );
 
     const card = container.firstChild as HTMLElement;
     expect(card.className).toContain('ring-2');
+  });
+
+  test('calls onUseSpecialty when specialty suggestion clicked', () => {
+    const handleUseSpecialty = mock(() => {});
+    const { getByText } = render(
+      <IngredientCard
+        {...defaultProps}
+        specialtySuggestion={mockSpecialty}
+        onUseSpecialty={handleUseSpecialty}
+      />
+    );
+
+    fireEvent.click(getByText('Sesame oil'));
+
+    expect(handleUseSpecialty).toHaveBeenCalledTimes(1);
+  });
+
+  test('calls onSelect when ingredient name clicked and canSelect is true', () => {
+    const handleSelect = mock(() => {});
+    const { getByText } = render(
+      <IngredientCard
+        {...defaultProps}
+        onSelect={handleSelect}
+        canSelect={true}
+      />
+    );
+
+    fireEvent.click(getByText('Olive oil'));
+
+    expect(handleSelect).toHaveBeenCalledTimes(1);
+  });
+
+  test('does not call onSelect when ingredient name clicked and canSelect is false', () => {
+    const handleSelect = mock(() => {});
+    const { getByText } = render(
+      <IngredientCard
+        {...defaultProps}
+        onSelect={handleSelect}
+        canSelect={false}
+      />
+    );
+
+    fireEvent.click(getByText('Olive oil'));
+
+    expect(handleSelect).toHaveBeenCalledTimes(0);
+  });
+
+  test('does not call onSelect when locked', () => {
+    const handleSelect = mock(() => {});
+    const { getByText } = render(
+      <IngredientCard
+        {...defaultProps}
+        onSelect={handleSelect}
+        canSelect={true}
+        isLocked={true}
+      />
+    );
+
+    fireEvent.click(getByText('Olive oil'));
+
+    expect(handleSelect).toHaveBeenCalledTimes(0);
+  });
+
+  test('shows "Choose" button when canSelect true and no ingredient', () => {
+    const { getByText } = render(
+      <IngredientCard {...defaultProps} ingredient={null} canSelect={true} />
+    );
+
+    expect(getByText('Choose')).toBeDefined();
   });
 });

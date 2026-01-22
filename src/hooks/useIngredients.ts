@@ -229,6 +229,22 @@ export function useIngredients() {
     setSpecialtySuggestions(EMPTY_SPECIALTIES);
   }, []);
 
+  // Manually set an ingredient for a category
+  const setIngredient = useCallback(
+    (category: IngredientCategory, ingredient: Ingredient) => {
+      setIngredients((prev) => ({
+        ...prev,
+        [category]: ingredient,
+      }));
+      // Clear the specialty suggestion since user made a manual choice
+      setSpecialtySuggestions((prev) => ({
+        ...prev,
+        [category]: null,
+      }));
+    },
+    []
+  );
+
   // Check if all ingredients are selected
   const allSelected = INGREDIENT_CATEGORIES.every(
     (cat) => ingredients[cat] !== null
@@ -243,6 +259,7 @@ export function useIngredients() {
     rerollIngredient,
     useSpecialty,
     toggleLock,
+    setIngredient,
     reset,
     allSelected,
   };

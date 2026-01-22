@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useLayoutEffect } from 'react';
+import { useEffect, useRef, useLayoutEffect, useState } from 'react';
 import Link from 'next/link';
 import { CuisineSelector } from '@/components/CuisineSelector';
 import { SeasonSelector } from '@/components/SeasonSelector';
 import { ServingsSelector } from '@/components/ServingsSelector';
 import { IngredientGrid } from '@/components/IngredientGrid';
+import { IngredientSelector } from '@/components/IngredientSelector';
 import { GenerateButton } from '@/components/GenerateButton';
 import { RecipeView } from '@/components/RecipeView';
 import { RecentRecipes } from '@/components/RecentRecipes';
@@ -13,8 +14,7 @@ import { useCuisines } from '@/hooks/useCuisines';
 import { useIngredients } from '@/hooks/useIngredients';
 import { useRecipe } from '@/hooks/useRecipe';
 import { getCurrentSeason } from '@/utils/season';
-import type { Season, IngredientCategory } from '@/types';
-import { useState } from 'react';
+import type { Season, IngredientCategory, Ingredient } from '@/types';
 
 export default function Home() {
   const [season, setSeason] = useState<Season>(getCurrentSeason());
@@ -37,8 +37,13 @@ export default function Home() {
     rerollIngredient,
     useSpecialty,
     toggleLock,
+    setIngredient,
     allSelected,
   } = useIngredients();
+
+  // State for ingredient selector drawer
+  const [selectorOpen, setSelectorOpen] = useState(false);
+  const [selectorCategory, setSelectorCategory] = useState<IngredientCategory>('fat');
 
   const {
     recipe,
@@ -71,6 +76,15 @@ export default function Home() {
     if (selectedCuisine) {
       rerollIngredient(selectedCuisine.id, category);
     }
+  };
+
+  const handleOpenSelector = (category: IngredientCategory) => {
+    setSelectorCategory(category);
+    setSelectorOpen(true);
+  };
+
+  const handleSelectIngredient = (ingredient: Ingredient) => {
+    setIngredient(selectorCategory, ingredient);
   };
 
   const handleGenerate = () => {
@@ -217,9 +231,21 @@ export default function Home() {
                 onToggleLock={toggleLock}
                 onReroll={handleReroll}
                 onUseSpecialty={useSpecialty}
+                onSelect={handleOpenSelector}
                 isLoading={ingredientsLoading}
+                canSelect={!!selectedCuisine}
               />
             </div>
+
+            {/* Ingredient selector drawer */}
+            <IngredientSelector
+              category={selectorCategory}
+              cuisineId={selectedCuisine?.id ?? null}
+              isOpen={selectorOpen}
+              onClose={() => setSelectorOpen(false)}
+              onSelect={handleSelectIngredient}
+              currentIngredient={ingredients[selectorCategory]}
+            />
 
             {/* Generate button */}
             <div className="flex justify-center">

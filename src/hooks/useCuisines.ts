@@ -9,7 +9,7 @@ export function useCuisines() {
   const [selectedCuisine, setSelectedCuisine] = useState<Cuisine | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch all cuisines on mount
+  // Fetch all cuisines on mount and auto-select a random one
   useEffect(() => {
     async function fetchCuisines() {
       const { data, error } = await supabase
@@ -19,10 +19,20 @@ export function useCuisines() {
 
       if (error) {
         console.error('Error fetching cuisines:', error);
+        setIsLoading(false);
         return;
       }
 
-      setCuisines(data || []);
+      const cuisineList = data || [];
+      setCuisines(cuisineList);
+
+      // Auto-select a random cuisine on initial load
+      if (cuisineList.length > 0) {
+        const randomIndex =
+          crypto.getRandomValues(new Uint32Array(1))[0] % cuisineList.length;
+        setSelectedCuisine(cuisineList[randomIndex]);
+      }
+
       setIsLoading(false);
     }
 
